@@ -40,11 +40,13 @@ export function TradeoffCards() {
 
               {isOpen && (
                 <div className="border-t border-zinc-700 px-2.5 py-2.5 space-y-3">
-                  {/* Side-by-side options */}
+                  {/* Side-by-side options. min-w-0 lets the grid tracks shrink
+                      (grid items default to min-width:auto), and break-words
+                      wraps long option names so nothing overflows the panel. */}
                   <div className="grid grid-cols-2 gap-2">
                     {/* Option A */}
-                    <div className="space-y-1.5">
-                      <p className="text-[11px] font-semibold text-cyan-400">
+                    <div className="min-w-0 space-y-1.5">
+                      <p className="break-words text-[11px] font-semibold text-cyan-400">
                         {card.optionA.name}
                       </p>
                       <div>
@@ -53,7 +55,7 @@ export function TradeoffCards() {
                         </p>
                         <ul className="mt-0.5 space-y-0.5">
                           {card.optionA.pros.map((pro, i) => (
-                            <li key={i} className="text-[11px] leading-tight text-zinc-400">
+                            <li key={i} className="break-words text-[11px] leading-tight text-zinc-400">
                               + {pro}
                             </li>
                           ))}
@@ -65,7 +67,7 @@ export function TradeoffCards() {
                         </p>
                         <ul className="mt-0.5 space-y-0.5">
                           {card.optionA.cons.map((con, i) => (
-                            <li key={i} className="text-[11px] leading-tight text-zinc-500">
+                            <li key={i} className="break-words text-[11px] leading-tight text-zinc-500">
                               - {con}
                             </li>
                           ))}
@@ -74,8 +76,8 @@ export function TradeoffCards() {
                     </div>
 
                     {/* Option B */}
-                    <div className="space-y-1.5">
-                      <p className="text-[11px] font-semibold text-purple-400">
+                    <div className="min-w-0 space-y-1.5">
+                      <p className="break-words text-[11px] font-semibold text-purple-400">
                         {card.optionB.name}
                       </p>
                       <div>
@@ -84,7 +86,7 @@ export function TradeoffCards() {
                         </p>
                         <ul className="mt-0.5 space-y-0.5">
                           {card.optionB.pros.map((pro, i) => (
-                            <li key={i} className="text-[11px] leading-tight text-zinc-400">
+                            <li key={i} className="break-words text-[11px] leading-tight text-zinc-400">
                               + {pro}
                             </li>
                           ))}
@@ -96,7 +98,7 @@ export function TradeoffCards() {
                         </p>
                         <ul className="mt-0.5 space-y-0.5">
                           {card.optionB.cons.map((con, i) => (
-                            <li key={i} className="text-[11px] leading-tight text-zinc-500">
+                            <li key={i} className="break-words text-[11px] leading-tight text-zinc-500">
                               - {con}
                             </li>
                           ))}

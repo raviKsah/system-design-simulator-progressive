@@ -206,7 +206,8 @@ export function DesignCanvas({ onPickProblem, onLoadReference, onStartInterview 
           maskColor="rgba(9, 9, 11, 0.7)"
           nodeColor={miniMapNodeColor}
           position="bottom-right"
-          style={{ width: 140, height: 90 }}
+          // Lifted above the corner Support FAB so the two don't overlap
+          style={{ width: 140, height: 90, bottom: 72 }}
         />
       </ReactFlow>
 

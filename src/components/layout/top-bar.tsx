@@ -167,7 +167,6 @@ export function TopBar({ onSimulate, onScore, onClearCanvas, onSave, onLoad, onS
           <span className="hidden text-sm font-semibold tracking-tight text-zinc-100 sm:inline">
             SystemSim
           </span>
-          <span className="hidden rounded bg-zinc-800 px-1.5 py-0.5 text-[9px] font-medium text-zinc-500 md:inline">beta</span>
         </div>
 
         <div className="mx-1 hidden h-4 w-px bg-zinc-800 md:block" />

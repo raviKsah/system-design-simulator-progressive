@@ -9,58 +9,32 @@ interface SupportFABProps {
 }
 
 /**
- * Circular "Buy me a coffee" floating action button.
- * Small disc (~56px) tucked into the bottom-right corner on all breakpoints.
- * Label arches along the bottom; Coffee icon sits in the middle.
+ * Circular "Buy me a coffee" floating action button — a compact 44px disc
+ * tucked into the bottom-right corner. A label pill slides out on hover
+ * (desktop) so the disc itself stays clean and uncluttered.
  */
 export function SupportFAB({ onClick, hidden = false }: SupportFABProps) {
   if (hidden) return null;
   return (
-    <button
-      onClick={onClick}
-      className="group fixed bottom-[max(1rem,env(safe-area-inset-bottom))] right-4 z-30 flex h-14 w-14 items-center justify-center rounded-full border border-cyan-300/50 bg-gradient-to-br from-cyan-400 via-cyan-500 to-cyan-600 text-zinc-950 shadow-lg shadow-cyan-500/30 ring-1 ring-black/10 transition-transform hover:-translate-y-0.5 hover:scale-[1.05] active:translate-y-0 md:bottom-20"
-      title="Buy me a coffee — support the project"
-      aria-label="Buy me a coffee"
-    >
-      {/* Arched label — bottom arc */}
-      <svg
-        viewBox="0 0 100 100"
-        className="pointer-events-none absolute inset-0 h-full w-full"
-        aria-hidden="true"
-      >
-        <defs>
-          <path
-            id="support-fab-arc-bottom"
-            d="M 16,50 A 34,34 0 0,1 84,50"
-            fill="none"
-          />
-        </defs>
-        <text
-          style={{
-            fontSize: "10px",
-            fontWeight: 900,
-            letterSpacing: "0.04em",
-            fill: "#09090b",
-            stroke: "#09090b",
-            strokeWidth: "0.9",
-            paintOrder: "stroke fill",
-          }}
-        >
-          <textPath
-            href="#support-fab-arc-bottom"
-            startOffset="50%"
-            textAnchor="middle"
-          >
-            BUY ME A COFFEE
-          </textPath>
-        </text>
-      </svg>
+    <div className="group fixed bottom-[max(1rem,env(safe-area-inset-bottom))] right-4 z-30 flex items-center gap-2">
+      {/* Hover label pill (desktop only) */}
+      <span className="pointer-events-none hidden translate-x-1 rounded-full border border-zinc-700/80 bg-zinc-900/95 px-2.5 py-1 text-[11px] font-medium text-zinc-200 opacity-0 shadow-lg backdrop-blur transition-all duration-200 group-hover:translate-x-0 group-hover:opacity-100 md:block">
+        Buy me a coffee
+      </span>
 
-      {/* Centered Coffee icon */}
-      <Coffee
-        className="relative z-10 h-4 w-4 transition-transform group-hover:-rotate-6 group-hover:scale-110"
-        strokeWidth={2.75}
-      />
-    </button>
+      <button
+        onClick={onClick}
+        className="relative flex h-11 w-11 items-center justify-center rounded-full bg-gradient-to-br from-cyan-400 to-cyan-600 text-zinc-950 shadow-md shadow-cyan-500/25 ring-1 ring-inset ring-white/20 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-cyan-500/40 active:translate-y-0 active:scale-95"
+        title="Buy me a coffee — support the project"
+        aria-label="Buy me a coffee"
+      >
+        {/* Soft glow ring that blooms on hover */}
+        <span className="pointer-events-none absolute inset-0 rounded-full ring-2 ring-cyan-400/0 ring-offset-0 ring-offset-transparent transition-all duration-300 group-hover:ring-cyan-400/30 group-hover:ring-offset-2" />
+        <Coffee
+          className="h-[18px] w-[18px] transition-transform duration-200 group-hover:-rotate-6 group-hover:scale-110"
+          strokeWidth={2.5}
+        />
+      </button>
+    </div>
   );
 }
