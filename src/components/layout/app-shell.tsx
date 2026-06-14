@@ -25,6 +25,7 @@ import { CreateComponentDialog } from "@/components/dialogs/CreateComponentDialo
 import { SupportDialog } from "@/components/dialogs/SupportDialog";
 import { useInterviewStore } from "@/store/interviewStore";
 import { useIsMobile } from "@/hooks/useBreakpoint";
+import { CommandPalette } from "@/components/CommandPalette";
 
 export function AppShell() {
   const isMobile = useIsMobile();
@@ -43,6 +44,7 @@ export function AppShell() {
   const [createProblemDialogOpen, setCreateProblemDialogOpen] = useState(false);
   const [createComponentDialogOpen, setCreateComponentDialogOpen] = useState(false);
   const [supportDialogOpen, setSupportDialogOpen] = useState(false);
+  const [commandOpen, setCommandOpen] = useState(false);
 
   // Auto-open support dialog when URL has ?support=1 (used by the README link)
   useEffect(() => {
@@ -190,6 +192,13 @@ export function AppShell() {
           e.preventDefault();
           deleteEdge(selectedEdgeId);
         }
+      }
+
+      // Command palette — Cmd/Ctrl+K (toggle)
+      if (key === "k" && (e.metaKey || e.ctrlKey)) {
+        e.preventDefault();
+        setCommandOpen((v) => !v);
+        return;
       }
 
       // Undo / Redo — Cmd/Ctrl+Z, redo via Shift+Z or Ctrl+Y. Disabled on read-only tabs.
@@ -381,6 +390,21 @@ export function AppShell() {
         <CreateProblemDialog open={createProblemDialogOpen} onClose={() => setCreateProblemDialogOpen(false)} />
         <CreateComponentDialog open={createComponentDialogOpen} onClose={() => setCreateComponentDialogOpen(false)} />
         <SupportDialog open={supportDialogOpen} onClose={() => setSupportDialogOpen(false)} />
+        <CommandPalette
+          key={commandOpen ? "cmd-open" : "cmd-closed"}
+          open={commandOpen}
+          onClose={() => setCommandOpen(false)}
+          actions={{
+            onSimulate: handleSimulate,
+            onScore: handleScore,
+            onSave: handleSave,
+            onLoad: handleLoad,
+            onStartInterview: () => setInterviewDialogOpen(true),
+            onLoadReference: handleLoadReference,
+            onClear: handleClearCanvas,
+            onOpenSupport: () => setSupportDialogOpen(true),
+          }}
+        />
       </div>
     </ReactFlowProvider>
   );

@@ -36,7 +36,7 @@ function useCountUp(target: number, durationMs = 1000) {
   return value;
 }
 
-function CategorySection({ category }: { category: CategoryScore }) {
+function CategorySection({ category, index = 0 }: { category: CategoryScore; index?: number }) {
   const [expanded, setExpanded] = useState(false);
   const pct = (category.score / category.maxScore) * 100;
 
@@ -65,12 +65,12 @@ function CategorySection({ category }: { category: CategoryScore }) {
         </span>
       </button>
 
-      <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-zinc-700">
+      <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-zinc-700/70">
         <motion.div
           className={`h-full rounded-full ${barColor}`}
           initial={{ width: 0 }}
           animate={{ width: `${pct}%` }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
+          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: 0.25 + index * 0.09 }}
         />
       </div>
 
@@ -159,18 +159,30 @@ export function ScoreReport() {
               const radius = 38;
               const circumference = 2 * Math.PI * radius;
               const progress = (scoreResult.total / 100) * circumference;
-              const strokeColor = scoreResult.total >= 71 ? '#10b981' : scoreResult.total >= 51 ? '#22d3ee' : scoreResult.total >= 31 ? '#f59e0b' : '#ef4444';
+              // Tier-tinted gradient (base → lighter sheen) gives the ring depth
+              const tier =
+                scoreResult.total >= 71 ? ["#059669", "#34d399"] :
+                scoreResult.total >= 51 ? ["#0891b2", "#22d3ee"] :
+                scoreResult.total >= 31 ? ["#d97706", "#fbbf24"] :
+                ["#dc2626", "#f87171"];
               return (
                 <svg width="96" height="96" className="-rotate-90">
+                  <defs>
+                    <linearGradient id="scoreRing" x1="0" y1="0" x2="1" y2="1">
+                      <stop offset="0%" stopColor={tier[0]} />
+                      <stop offset="100%" stopColor={tier[1]} />
+                    </linearGradient>
+                  </defs>
                   <circle cx="48" cy="48" r={radius} fill="none" stroke="rgb(39,39,42)" strokeWidth="6" />
                   <motion.circle
                     cx="48" cy="48" r={radius} fill="none"
-                    stroke={strokeColor} strokeWidth="6"
+                    stroke="url(#scoreRing)" strokeWidth="6"
                     strokeLinecap="round"
                     strokeDasharray={circumference}
                     initial={{ strokeDashoffset: circumference }}
                     animate={{ strokeDashoffset: circumference - progress }}
-                    transition={{ duration: 1, ease: "easeOut" }}
+                    transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+                    style={{ filter: `drop-shadow(0 0 6px ${tier[1]}66)` }}
                   />
                 </svg>
               );
@@ -202,8 +214,8 @@ export function ScoreReport() {
           <p className="text-xs font-semibold uppercase tracking-wider text-zinc-500">
             Categories
           </p>
-          {scoreResult.categories.map((cat) => (
-            <CategorySection key={cat.category} category={cat} />
+          {scoreResult.categories.map((cat, i) => (
+            <CategorySection key={cat.category} category={cat} index={i} />
           ))}
         </div>
 

@@ -6,7 +6,6 @@ import {
   Play,
   Trophy,
   ChevronDown,
-  Zap,
   PanelLeft,
   PanelRight,
   Trash2,
@@ -166,8 +165,9 @@ export function TopBar({ onSimulate, onScore, onClearCanvas, onSave, onLoad, onS
         </button>
 
         <div className="flex shrink-0 items-center gap-2">
-          <Zap className="h-4 w-4 text-cyan-500" />
-          <span className="hidden text-sm font-semibold tracking-tight text-zinc-100 sm:inline">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/logo-mark.svg" alt="SystemForge" width={20} height={20} className="h-5 w-5" />
+          <span className="hidden font-display text-[15px] font-bold tracking-[-0.02em] text-zinc-50 sm:inline">
             SystemForge
           </span>
         </div>

@@ -241,7 +241,7 @@ export function DesignCanvas({ onPickProblem, onLoadReference, onStartInterview 
               <Layers className="h-6 w-6 text-cyan-400" />
             </motion.div>
             <motion.div variants={emptyItem} className="space-y-1.5">
-              <h1 className="text-base font-semibold tracking-tight text-zinc-100 md:text-lg">
+              <h1 className="font-display text-lg font-bold tracking-[-0.02em] text-zinc-50 md:text-xl">
                 Build an architecture that scales
               </h1>
               <p className="mx-auto max-w-sm text-xs leading-relaxed text-zinc-400 md:text-sm">
@@ -272,6 +272,11 @@ export function DesignCanvas({ onPickProblem, onLoadReference, onStartInterview 
             </motion.div>
 
             <motion.div variants={emptyItem} className="hidden flex-wrap items-center justify-center gap-3 text-[11px] text-zinc-500 md:flex">
+              <span className="flex items-center gap-1.5">
+                <kbd className="rounded border border-zinc-700 bg-zinc-800 px-1.5 py-0.5 font-mono text-[10px]">⌘K</kbd>
+                command palette
+              </span>
+              <span className="text-zinc-700">·</span>
               <span className="flex items-center gap-1.5">
                 <MousePointer2 className="h-3 w-3" />
                 Drag from the sidebar
