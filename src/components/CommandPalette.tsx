@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { motion } from "framer-motion";
 import { useReactFlow, type Node } from "@xyflow/react";
 import {
   Search, Play, Trophy, Save, FolderOpen, GraduationCap, Download,
@@ -221,11 +222,20 @@ export function CommandPalette({ open, onClose, actions }: CommandPaletteProps) 
 
   return (
     <div className="fixed inset-0 z-[60] flex items-start justify-center px-4 pt-[10vh]">
-      <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={onClose} />
-      <div
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.12 }}
+        className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+        onClick={onClose}
+      />
+      <motion.div
         role="dialog"
         aria-modal="true"
         aria-label="Command palette"
+        initial={{ opacity: 0, scale: 0.97, y: -8 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        transition={{ duration: 0.16, ease: [0.16, 1, 0.3, 1] }}
         className="relative flex max-h-[72vh] w-full max-w-lg flex-col overflow-hidden rounded-xl border border-zinc-700/80 bg-zinc-900/95 shadow-[var(--shadow-e4)]"
         onKeyDown={onKeyDown}
       >
@@ -287,7 +297,7 @@ export function CommandPalette({ open, onClose, actions }: CommandPaletteProps) 
             })
           )}
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 }

@@ -2,7 +2,7 @@
 
 import { ModalShell } from "./ModalShell";
 import {
-  X, BookOpen, Boxes, GraduationCap, Activity, Command, Sparkles,
+  X, BookOpen, Boxes, GraduationCap, Activity, Command, Sparkles, PlayCircle,
 } from "lucide-react";
 
 interface HowItWorksDialogProps {
@@ -10,6 +10,8 @@ interface HowItWorksDialogProps {
   onClose: () => void;
   /** Jump the user into picking a problem (closes the dialog first). */
   onPickProblem?: () => void;
+  /** Launch the animated walkthrough. */
+  onPlayWalkthrough?: () => void;
 }
 
 const MODES = [
@@ -48,7 +50,7 @@ const STEPS = [
   ["Iterate & save", "Refine the design, then Save it or Export as PNG/JSON. Load Reference shows a model solution."],
 ];
 
-export function HowItWorksDialog({ open, onClose, onPickProblem }: HowItWorksDialogProps) {
+export function HowItWorksDialog({ open, onClose, onPickProblem, onPlayWalkthrough }: HowItWorksDialogProps) {
   return (
     <ModalShell open={open} onClose={onClose} ariaLabel="How SystemForge works" panelClassName="max-w-2xl">
       {/* Header */}
@@ -72,6 +74,23 @@ export function HowItWorksDialog({ open, onClose, onPickProblem }: HowItWorksDia
       </div>
 
       <div className="space-y-6 px-5 py-5">
+        {/* Animated walkthrough launcher */}
+        {onPlayWalkthrough && (
+          <button
+            onClick={onPlayWalkthrough}
+            className="group flex w-full items-center gap-3 overflow-hidden rounded-xl border border-cyan-500/30 bg-gradient-to-r from-cyan-500/15 to-blue-500/10 px-4 py-3 text-left transition-colors hover:border-cyan-400/50"
+          >
+            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-cyan-500 text-white shadow-md shadow-cyan-500/30 transition-transform group-hover:scale-105">
+              <PlayCircle className="h-5 w-5" />
+            </span>
+            <span className="flex-1">
+              <span className="block text-sm font-semibold text-zinc-50">Watch the 60-second walkthrough</span>
+              <span className="block text-xs text-zinc-400">An animated tour of the whole flow — build, simulate, score & interview.</span>
+            </span>
+            <Sparkles className="h-4 w-4 shrink-0 text-cyan-400" />
+          </button>
+        )}
+
         {/* Four modes */}
         <section>
           <p className="mb-2.5 text-[11px] font-semibold uppercase tracking-wider text-zinc-500">Four ways to use it</p>

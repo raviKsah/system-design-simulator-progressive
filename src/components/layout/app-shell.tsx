@@ -27,6 +27,7 @@ import { useInterviewStore } from "@/store/interviewStore";
 import { useIsMobile } from "@/hooks/useBreakpoint";
 import { CommandPalette } from "@/components/CommandPalette";
 import { HowItWorksDialog } from "@/components/dialogs/HowItWorksDialog";
+import { Walkthrough } from "@/components/Walkthrough";
 
 export function AppShell() {
   const isMobile = useIsMobile();
@@ -47,6 +48,7 @@ export function AppShell() {
   const [supportDialogOpen, setSupportDialogOpen] = useState(false);
   const [commandOpen, setCommandOpen] = useState(false);
   const [howItWorksOpen, setHowItWorksOpen] = useState(false);
+  const [walkthroughOpen, setWalkthroughOpen] = useState(false);
 
   // Auto-open support dialog when URL has ?support=1 (used by the README link)
   useEffect(() => {
@@ -412,6 +414,12 @@ export function AppShell() {
         <HowItWorksDialog
           open={howItWorksOpen}
           onClose={() => setHowItWorksOpen(false)}
+          onPickProblem={handlePickProblem}
+          onPlayWalkthrough={() => { setHowItWorksOpen(false); setWalkthroughOpen(true); }}
+        />
+        <Walkthrough
+          open={walkthroughOpen}
+          onClose={() => setWalkthroughOpen(false)}
           onPickProblem={handlePickProblem}
         />
       </div>

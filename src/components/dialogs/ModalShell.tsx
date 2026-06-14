@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, type ReactNode } from "react";
+import { motion } from "framer-motion";
 
 interface ModalShellProps {
   open: boolean;
@@ -112,25 +113,31 @@ export function ModalShell({
       className={`fixed inset-0 z-50 flex items-center justify-center p-4 ${wrapperClassName}`}
     >
       {/* Backdrop */}
-      <div
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.15 }}
         className={`absolute inset-0 bg-black/60 ${backdropClassName}`}
         onClick={onClose}
         aria-hidden="true"
       />
 
       {/* Panel */}
-      <div
+      <motion.div
         ref={panelRef}
         role="dialog"
         aria-modal="true"
         aria-label={ariaLabel}
         tabIndex={-1}
+        initial={{ opacity: 0, scale: 0.96, y: 12 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
         className={`relative z-10 max-h-[85dvh] w-full overflow-y-auto outline-none ${
           chrome ? "rounded-lg border border-zinc-800 bg-zinc-900 shadow-lg" : ""
         } ${panelClassName}`}
       >
         {children}
-      </div>
+      </motion.div>
     </div>
   );
 }
