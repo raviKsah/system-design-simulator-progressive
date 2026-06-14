@@ -16,6 +16,7 @@ import { nodeTypes } from "./nodes/nodeTypes";
 import { edgeTypes } from "./edges/edgeTypes";
 import { useCanvasStore, type ComponentNodeData } from "@/store/canvasStore";
 import { usePenStore } from "@/store/penStore";
+import { useAppStore } from "@/store/appStore";
 import { getComponentById } from "@/data/components";
 import { BookOpen, GraduationCap, Layers, Lock, MousePointer2, Sparkles, HelpCircle } from "lucide-react";
 import { motion } from "framer-motion";
@@ -58,6 +59,10 @@ export function DesignCanvas({ onPickProblem, onLoadReference, onStartInterview,
   const activeTabId = useCanvasStore((s) => s.activeTabId);
   const isReadOnly = tabs.find((t) => t.id === activeTabId)?.readOnly === true;
   const penMode = usePenStore((s) => s.mode);
+  const isDark = useAppStore((s) => s.theme) === "dark";
+  const dotColor = isDark ? "rgba(155,172,205,0.24)" : "rgba(70,85,115,0.20)";
+  const lineColor = isDark ? "rgba(150,165,195,0.05)" : "rgba(70,85,115,0.05)";
+  const minimapMask = isDark ? "rgba(9,11,14,0.7)" : "rgba(228,232,240,0.6)";
   const penActive = penMode !== "off";
 
   // Re-fit the viewport whenever the user switches canvas tabs
@@ -199,7 +204,7 @@ export function DesignCanvas({ onPickProblem, onLoadReference, onStartInterview,
           variant={BackgroundVariant.Lines}
           gap={120}
           lineWidth={1}
-          color="rgba(150, 165, 195, 0.05)"
+          color={lineColor}
           className="!bg-transparent"
         />
         <Background
@@ -207,7 +212,7 @@ export function DesignCanvas({ onPickProblem, onLoadReference, onStartInterview,
           variant={BackgroundVariant.Dots}
           gap={20}
           size={1}
-          color="rgba(155, 172, 205, 0.24)"
+          color={dotColor}
           className="!bg-transparent"
         />
         <Controls
@@ -216,7 +221,7 @@ export function DesignCanvas({ onPickProblem, onLoadReference, onStartInterview,
         />
         <MiniMap
           className="!hidden !rounded-md !border !border-zinc-800 !bg-zinc-900 md:!block"
-          maskColor="rgba(9, 9, 11, 0.7)"
+          maskColor={minimapMask}
           nodeColor={miniMapNodeColor}
           position="bottom-right"
           // Lifted above the corner Support FAB so the two don't overlap

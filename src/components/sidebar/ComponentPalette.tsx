@@ -212,7 +212,7 @@ export function ComponentPalette({ onCreateCustomComponent, onComponentAdded }: 
                                 e.stopPropagation();
                                 handleQuickAdd(item.id);
                               }}
-                              className={`flex ${isCoarse ? "h-9 w-9" : "h-5 w-5"} shrink-0 items-center justify-center rounded text-zinc-500 opacity-60 transition-all hover:bg-zinc-700 hover:text-cyan-400 hover:opacity-100 group-focus-within:opacity-100 [@media(hover:hover)]:opacity-0 [@media(hover:hover)]:group-hover:opacity-100`}
+                              className={`flex ${isCoarse ? "h-9 w-9" : "h-5 w-5"} shrink-0 items-center justify-center rounded text-zinc-500 opacity-60 transition-[opacity,color,background-color] hover:bg-zinc-700 hover:text-cyan-400 hover:opacity-100 group-focus-within:opacity-100 [@media(hover:hover)]:opacity-0 [@media(hover:hover)]:group-hover:opacity-100`}
                               title="Add to canvas"
                               aria-label={`Add ${item.label} to canvas`}
                             >
@@ -221,7 +221,7 @@ export function ComponentPalette({ onCreateCustomComponent, onComponentAdded }: 
                             {isCustom && (
                               <button
                                 onClick={(e) => handleDeleteCustom(e, item.id, item.label)}
-                                className={`flex ${isCoarse ? "h-9 w-9" : "h-5 w-5"} shrink-0 items-center justify-center rounded text-zinc-500 opacity-60 transition-all hover:bg-zinc-700 hover:text-rose-400 hover:opacity-100 group-focus-within:opacity-100 [@media(hover:hover)]:opacity-0 [@media(hover:hover)]:group-hover:opacity-100`}
+                                className={`flex ${isCoarse ? "h-9 w-9" : "h-5 w-5"} shrink-0 items-center justify-center rounded text-zinc-500 opacity-60 transition-[opacity,color,background-color] hover:bg-zinc-700 hover:text-rose-400 hover:opacity-100 group-focus-within:opacity-100 [@media(hover:hover)]:opacity-0 [@media(hover:hover)]:group-hover:opacity-100`}
                                 title="Delete custom component"
                                 aria-label={`Delete ${item.label}`}
                               >

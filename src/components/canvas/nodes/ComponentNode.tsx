@@ -80,8 +80,8 @@ function ComponentNodeInner({ id, data, selected }: NodeProps<ComponentNode>) {
   return (
     <div
       className={`
-        group relative flex flex-col items-center gap-1 rounded-xl border bg-zinc-900/95 px-4 py-3
-        shadow-[var(--shadow-e2)] backdrop-blur-sm transition-all duration-150
+        group relative flex flex-col items-center gap-1 rounded-xl border bg-zinc-900 px-4 py-3
+        shadow-[var(--shadow-e2)] transition-[border-color,box-shadow] duration-150
         ${isBottleneck
           ? "border-rose-500/60 ring-2 ring-rose-500/20"
           : selected

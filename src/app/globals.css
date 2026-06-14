@@ -15,28 +15,30 @@
    luminance-based elevation, AA-contrast text, and an accent that's calm on
    dark (full-saturation cyan "burns" on near-black).
    ────────────────────────────────────────────────────────────────────────── */
-@theme {
-  /* Cool near-black neutral ramp (hue 240, low chroma). Drives every
-     bg-zinc-*, border-zinc-*, text-zinc-* in the app. */
-  --color-zinc-50:  oklch(0.98 0.004 240);
-  --color-zinc-100: oklch(0.95 0.006 240);
-  --color-zinc-200: oklch(0.90 0.008 240);
-  --color-zinc-300: oklch(0.82 0.011 240);
-  --color-zinc-400: oklch(0.72 0.014 240);  /* body / labels — AA on panels */
-  --color-zinc-500: oklch(0.62 0.015 240);  /* muted / hints */
-  --color-zinc-600: oklch(0.50 0.016 240);
-  --color-zinc-700: oklch(0.38 0.018 240);  /* strong borders, hover */
-  --color-zinc-800: oklch(0.29 0.017 240);  /* borders, chips, inputs */
-  --color-zinc-900: oklch(0.225 0.016 240); /* panels, nodes, cards, dialogs */
-  --color-zinc-950: oklch(0.14 0.013 240);  /* deepest wells */
-
-  /* Refined cyan accent — calm on near-black but vibrant enough to read as
-     "the action color"; used on actions / active / selected / focus / links. */
-  --color-cyan-300: oklch(0.87 0.11 200);
-  --color-cyan-400: oklch(0.82 0.13 198);
-  --color-cyan-500: oklch(0.74 0.14 197);   /* primary accent */
-  --color-cyan-600: oklch(0.66 0.14 200);
-  --color-cyan-700: oklch(0.57 0.12 203);
+/* Map Tailwind's zinc + cyan utilities to per-theme intermediate vars so the
+   whole app (which uses bg-zinc-*, text-zinc-*, bg-cyan-* etc.) flips correctly
+   between dark and light. The actual values live in `:root` (light) and
+   `.dark` (dark) below — in light mode the neutral ramp is inverted (zinc-900
+   becomes a near-white panel surface, zinc-100 becomes dark text), which lets
+   "dark surface + light text" components become "light surface + dark text"
+   without touching any component. */
+@theme inline {
+  --color-zinc-50:  var(--z-50);
+  --color-zinc-100: var(--z-100);
+  --color-zinc-200: var(--z-200);
+  --color-zinc-300: var(--z-300);
+  --color-zinc-400: var(--z-400);
+  --color-zinc-500: var(--z-500);
+  --color-zinc-600: var(--z-600);
+  --color-zinc-700: var(--z-700);
+  --color-zinc-800: var(--z-800);
+  --color-zinc-900: var(--z-900);
+  --color-zinc-950: var(--z-950);
+  --color-cyan-300: var(--ac-300);
+  --color-cyan-400: var(--ac-400);
+  --color-cyan-500: var(--ac-500);
+  --color-cyan-600: var(--ac-600);
+  --color-cyan-700: var(--ac-700);
 }
 
 @theme inline {
@@ -84,47 +86,96 @@
   --radius-4xl: calc(var(--radius) * 2.6);
 }
 
+/* ── LIGHT THEME (default :root) ────────────────────────────────────────────
+   The neutral ramp is INVERTED vs dark: bg-zinc-900 → near-white panel,
+   text-zinc-100 → dark text. This lets every "dark surface + light text"
+   component render correctly on light without any component edits. */
 :root {
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
+  /* inverted neutral ramp (text steps dark, surface steps light) */
+  --z-50:  oklch(0.30 0.010 240);
+  --z-100: oklch(0.27 0.012 240);  /* primary text */
+  --z-200: oklch(0.32 0.012 240);
+  --z-300: oklch(0.40 0.013 240);  /* body emphasis */
+  --z-400: oklch(0.46 0.014 240);  /* body / labels */
+  --z-500: oklch(0.50 0.015 240);  /* muted — AA on white */
+  --z-600: oklch(0.56 0.015 240);
+  --z-700: oklch(0.885 0.006 240); /* strong border / hover surface */
+  --z-800: oklch(0.93 0.005 240);  /* border / chip / input */
+  --z-900: oklch(0.985 0.003 240); /* panels / nodes / cards */
+  --z-950: oklch(0.995 0.001 240); /* deepest well */
+  --ac-300: oklch(0.72 0.13 200);
+  --ac-400: oklch(0.60 0.16 200);
+  --ac-500: oklch(0.52 0.16 200);  /* primary accent (button bg) — AA text on white */
+  --ac-600: oklch(0.47 0.15 203);
+  --ac-700: oklch(0.43 0.13 205);  /* links / accent text on white */
+
+  --background: oklch(0.975 0.004 240);   /* canvas / app floor (light gray) */
+  --foreground: oklch(0.25 0.012 240);
+  --card: oklch(0.99 0.002 240);
+  --card-foreground: oklch(0.25 0.012 240);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
+  --popover-foreground: oklch(0.25 0.012 240);
+  --primary: oklch(0.25 0.012 240);
+  --primary-foreground: oklch(0.99 0 0);
+  --secondary: oklch(0.93 0.005 240);
+  --secondary-foreground: oklch(0.25 0.012 240);
+  --muted: oklch(0.93 0.005 240);
+  --muted-foreground: oklch(0.50 0.015 240);
+  --accent: oklch(0.93 0.005 240);
+  --accent-foreground: oklch(0.25 0.012 240);
+  --destructive: oklch(0.58 0.20 25);
+  --border: oklch(0.91 0.005 240);
+  --input: oklch(0.90 0.006 240);
+  --ring: oklch(0.57 0.16 200);
+  --chart-1: oklch(0.57 0.16 200);
+  --chart-2: oklch(0.58 0.13 150);
+  --chart-3: oklch(0.62 0.14 85);
+  --chart-4: oklch(0.52 0.16 280);
+  --chart-5: oklch(0.56 0.18 20);
   --radius: 0.625rem;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  --sidebar: oklch(0.985 0.003 240);
+  --sidebar-foreground: oklch(0.25 0.012 240);
+  --sidebar-primary: oklch(0.57 0.16 200);
+  --sidebar-primary-foreground: oklch(0.99 0 0);
+  --sidebar-accent: oklch(0.93 0.005 240);
+  --sidebar-accent-foreground: oklch(0.25 0.012 240);
+  --sidebar-border: oklch(0.91 0.005 240);
+  --sidebar-ring: oklch(0.57 0.16 200);
+
+  /* canvas atmosphere (subtle on light — no dark vignette) */
+  --canvas-atmos:
+    radial-gradient(72% 46% at 50% -6%, oklch(0.57 0.16 200 / 0.05), transparent 72%),
+    radial-gradient(135% 130% at 50% 42%, transparent 70%, oklch(0.55 0.02 240 / 0.05) 100%);
+  /* theme-specific canvas colors consumed in JS (grid, edges, minimap) */
+  --grid-dot: rgba(70, 85, 115, 0.20);
+  --grid-line: rgba(70, 85, 115, 0.05);
+  --edge-idle: rgba(90, 105, 130, 0.45);
+  --minimap-mask: rgba(228, 232, 240, 0.6);
 }
 
+/* ── DARK THEME (.dark) ─────────────────────────────────────────────────────
+   Cool near-black (hue 240). Canvas floor sits BELOW panels → elevation via
+   luminance, not shadows (the Linear move). */
 .dark {
-  /* Cool near-black system (hue 240). The canvas/app floor sits BELOW the
-     panel surfaces, so nodes and panels read as elevated via luminance —
-     not shadows (the Linear move). All neutrals carry a faint cool tint. */
+  --z-50:  oklch(0.98 0.004 240);
+  --z-100: oklch(0.95 0.006 240);
+  --z-200: oklch(0.90 0.008 240);
+  --z-300: oklch(0.82 0.011 240);
+  --z-400: oklch(0.72 0.014 240);
+  --z-500: oklch(0.685 0.016 240);
+  --z-600: oklch(0.55 0.016 240);
+  --z-700: oklch(0.38 0.018 240);
+  --z-800: oklch(0.29 0.017 240);
+  --z-900: oklch(0.225 0.016 240);
+  --z-950: oklch(0.14 0.013 240);
+  --ac-300: oklch(0.87 0.11 200);
+  --ac-400: oklch(0.82 0.13 198);
+  --ac-500: oklch(0.74 0.14 197);
+  --ac-600: oklch(0.66 0.14 200);
+  --ac-700: oklch(0.57 0.12 203);
+
   --background: oklch(0.145 0.012 240);     /* canvas / app floor — deepest */
-  --foreground: oklch(0.96 0.008 240);      /* primary text (AA+) */
+  --foreground: oklch(0.96 0.008 240);
   --card: oklch(0.225 0.016 240);           /* panels / nodes / cards */
   --card-foreground: oklch(0.96 0.008 240);
   --popover: oklch(0.255 0.017 240);        /* floating — lightest surface */
@@ -134,13 +185,13 @@
   --secondary: oklch(0.27 0.015 240);
   --secondary-foreground: oklch(0.95 0.008 240);
   --muted: oklch(0.27 0.015 240);
-  --muted-foreground: oklch(0.72 0.014 240); /* labels (AA on panels) */
+  --muted-foreground: oklch(0.72 0.014 240);
   --accent: oklch(0.27 0.015 240);
   --accent-foreground: oklch(0.95 0.008 240);
   --destructive: oklch(0.62 0.20 25);
   --border: oklch(0.27 0.015 240);
   --input: oklch(0.30 0.015 240);
-  --ring: oklch(0.74 0.14 197);            /* refined cyan focus */
+  --ring: oklch(0.74 0.14 197);
   --chart-1: oklch(0.74 0.14 197);
   --chart-2: oklch(0.70 0.13 150);
   --chart-3: oklch(0.74 0.14 85);
@@ -154,6 +205,15 @@
   --sidebar-accent-foreground: oklch(0.95 0.008 240);
   --sidebar-border: oklch(0.27 0.015 240);
   --sidebar-ring: oklch(0.74 0.14 197);
+
+  --canvas-atmos:
+    radial-gradient(72% 46% at 50% -6%, oklch(0.74 0.14 197 / 0.09), transparent 72%),
+    radial-gradient(60% 55% at 100% 108%, oklch(0.55 0.09 250 / 0.06), transparent 72%),
+    radial-gradient(135% 130% at 50% 42%, transparent 60%, oklch(0.10 0.01 240 / 0.50) 100%);
+  --grid-dot: rgba(155, 172, 205, 0.24);
+  --grid-line: rgba(150, 165, 195, 0.05);
+  --edge-idle: rgba(150, 165, 195, 0.32);
+  --minimap-mask: rgba(9, 11, 14, 0.7);
 }
 
 @layer base {
@@ -220,10 +280,7 @@ button, a, [role="button"], input, textarea, select { touch-action: manipulation
    what keeps interaction perfectly smooth while still looking deep + designed. */
 .react-flow.sf-canvas {
   background-color: var(--background);
-  background-image:
-    radial-gradient(72% 46% at 50% -6%, oklch(0.74 0.14 197 / 0.09), transparent 72%),
-    radial-gradient(60% 55% at 100% 108%, oklch(0.55 0.09 250 / 0.06), transparent 72%),
-    radial-gradient(135% 130% at 50% 42%, transparent 60%, oklch(0.10 0.01 240 / 0.50) 100%);
+  background-image: var(--canvas-atmos);
 }
 
 /* Radial edge-mask fade for the React Flow dot grid — the single biggest

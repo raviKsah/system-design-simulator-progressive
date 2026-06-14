@@ -37,9 +37,19 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      // The inline theme script below toggles the `dark` class before React
+      // hydrates, so the html class intentionally differs from SSR — suppress
+      // the expected hydration warning (canonical theme-toggle pattern).
+      suppressHydrationWarning
       className={`${hanken.variable} ${geistMono.variable} dark h-full antialiased`}
     >
       <body className="h-full overflow-hidden bg-background text-foreground">
+        {/* Apply persisted theme before first paint to avoid a flash. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var s=localStorage.getItem('systemsim-app');var t=s&&JSON.parse(s).state&&JSON.parse(s).state.theme;document.documentElement.classList.toggle('dark',t!=='light');}catch(e){}})();`,
+          }}
+        />
         <TooltipProvider>
           {children}
         </TooltipProvider>

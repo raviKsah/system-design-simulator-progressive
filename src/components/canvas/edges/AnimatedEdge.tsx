@@ -8,6 +8,7 @@ import {
   type EdgeProps,
 } from "@xyflow/react";
 import { useSimulationStore } from "@/store/simulationStore";
+import { useAppStore } from "@/store/appStore";
 import type { CustomEdgeData } from "@/store/canvasStore";
 
 const protocolBadge: Record<string, { text: string; color: string } | null> = {
@@ -36,6 +37,8 @@ function AnimatedEdgeInner({
   // Traffic keeps flowing once a simulation has run (not just during the brief
   // compute window), so the canvas visibly "comes alive" after you Simulate.
   const flowing = isRunning || hasResult;
+  const isDark = useAppStore((s) => s.theme) === "dark";
+  const idleStroke = isDark ? "rgba(150, 165, 195, 0.32)" : "rgba(90, 105, 130, 0.45)";
   const edgeData = (data ?? {}) as CustomEdgeData;
   const isAsync = edgeData.async === true;
   const protocol = edgeData.protocol;
@@ -62,7 +65,7 @@ function AnimatedEdgeInner({
         markerEnd={markerEnd}
         style={{
           ...style,
-          stroke: flowing ? "rgba(52, 211, 230, 0.55)" : "rgba(150, 165, 195, 0.32)",
+          stroke: flowing ? "rgba(52, 211, 230, 0.55)" : idleStroke,
           strokeWidth: flowing ? 1.75 : 1.5,
           ...(isAsync ? { strokeDasharray: "6 4" } : {}),
         }}

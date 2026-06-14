@@ -3,14 +3,22 @@ import { createJSONStorage, persist } from "zustand/middleware";
 import { safeLocalStorage } from "./safeStorage";
 
 export type ToastType = "success" | "error" | "info";
+export type Theme = "dark" | "light";
 
 interface ToastData {
   message: string;
   type: ToastType;
 }
 
+/** Apply the theme by toggling the `dark` class on <html> (Tailwind dark variant). */
+export function applyThemeClass(theme: Theme): void {
+  if (typeof document === "undefined") return;
+  document.documentElement.classList.toggle("dark", theme === "dark");
+}
+
 interface AppState {
   selectedProblemId: string;
+  theme: Theme;
   leftSidebarOpen: boolean;
   rightPanelOpen: boolean;
   activeLeftTab: "components" | "problems" | "learn";
@@ -18,6 +26,8 @@ interface AppState {
   toast: ToastData | null;
 
   setSelectedProblem: (id: string) => void;
+  setTheme: (theme: Theme) => void;
+  toggleTheme: () => void;
   toggleLeftSidebar: () => void;
   toggleRightPanel: () => void;
   setLeftSidebarOpen: (open: boolean) => void;
@@ -35,6 +45,7 @@ export const useAppStore = create<AppState>()(
   persist(
     (set) => ({
       selectedProblemId: "url-shortener",
+      theme: "dark",
       leftSidebarOpen: true,
       rightPanelOpen: true,
       activeLeftTab: "components",
@@ -42,6 +53,16 @@ export const useAppStore = create<AppState>()(
       toast: null,
 
       setSelectedProblem: (id) => set({ selectedProblemId: id }),
+      setTheme: (theme) => {
+        applyThemeClass(theme);
+        set({ theme });
+      },
+      toggleTheme: () =>
+        set((s) => {
+          const theme: Theme = s.theme === "dark" ? "light" : "dark";
+          applyThemeClass(theme);
+          return { theme };
+        }),
       toggleLeftSidebar: () =>
         set((s) => ({ leftSidebarOpen: !s.leftSidebarOpen })),
       toggleRightPanel: () =>
@@ -72,20 +93,14 @@ export const useAppStore = create<AppState>()(
       version: 1,
       skipHydration: true,
       storage: createJSONStorage(() => safeLocalStorage),
-      // The app is dark-only; older persisted state may still contain a
-      // `theme` key — strip it so it never leaks back into the store.
-      migrate: (persisted) => {
-        if (persisted && typeof persisted === "object" && "theme" in persisted) {
-          const { theme: _theme, ...rest } = persisted as Record<string, unknown>;
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          return rest as any;
-        }
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        return persisted as any;
-      },
       partialize: (state) => ({
         selectedProblemId: state.selectedProblemId,
+        theme: state.theme,
       }),
+      // Apply the persisted theme to <html> as soon as the store rehydrates.
+      onRehydrateStorage: () => (state) => {
+        if (state?.theme) applyThemeClass(state.theme);
+      },
     }
   )
 );

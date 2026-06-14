@@ -24,6 +24,8 @@ import {
   Undo2,
   Redo2,
   Loader2,
+  Sun,
+  Moon,
 } from "lucide-react";
 import { useAppStore } from "@/store/appStore";
 import { useCanvasStore } from "@/store/canvasStore";
@@ -69,6 +71,8 @@ export function TopBar({ onSimulate, onScore, onClearCanvas, onSave, onLoad, onS
 
   const selectedProblemId = useAppStore((s) => s.selectedProblemId);
   const setSelectedProblem = useAppStore((s) => s.setSelectedProblem);
+  const theme = useAppStore((s) => s.theme);
+  const toggleTheme = useAppStore((s) => s.toggleTheme);
 
   const customProblems = useCustomProblemsStore((s) => s.problems);
   const currentProblem =
@@ -531,6 +535,15 @@ export function TopBar({ onSimulate, onScore, onClearCanvas, onSave, onLoad, onS
         >
           <Coffee className="h-3.5 w-3.5" />
           <span>Buy me a coffee</span>
+        </button>
+
+        <button
+          onClick={toggleTheme}
+          className="flex h-7 w-7 items-center justify-center rounded-md text-zinc-400 transition-colors hover:bg-zinc-800 hover:text-zinc-200"
+          title={theme === "dark" ? "Switch to light theme" : "Switch to dark theme"}
+          aria-label="Toggle color theme"
+        >
+          {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
         </button>
 
         <button
