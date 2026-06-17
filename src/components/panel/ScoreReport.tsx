@@ -7,6 +7,10 @@ import { Separator } from "@/components/ui/separator";
 import { CheckCircle2, AlertCircle, ChevronDown, ChevronRight, Trophy } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 import { useSimulationStore } from "@/store/simulationStore";
+import { useAppStore } from "@/store/appStore";
+import { usePracticeStore } from "@/store/practiceStore";
+import { getProblemById } from "@/data/problems";
+import { getProblemLevel } from "@/data/practiceLevels";
 import type { CategoryScore } from "@/types/scoring";
 
 /** Animate a number from 0 → target over ~1s, synced with the ring sweep. */
@@ -122,6 +126,10 @@ function verdictBgClass(verdictColor: string): string {
 
 export function ScoreReport() {
   const scoreResult = useSimulationStore((s) => s.scoreResult);
+  const selectedProblemId = useAppStore((s) => s.selectedProblemId);
+  const problem = getProblemById(selectedProblemId);
+  const level = problem ? getProblemLevel(problem) : null;
+  const progress = usePracticeStore((s) => s.progressByProblemId[selectedProblemId]);
   const animatedTotal = useCountUp(scoreResult?.total ?? 0);
 
   if (!scoreResult) {
@@ -209,6 +217,23 @@ export function ScoreReport() {
 
         <Separator className="bg-zinc-800" />
 
+        {problem && level && (
+          <>
+            <AdaptivePracticePanel
+              problemId={problem.id}
+              problemTitle={problem.title}
+              targetScore={level.targetScore}
+              hints={problem.hints}
+              scoreTotal={scoreResult.total}
+              feedback={topImprovements}
+              unlockedHintCount={progress?.unlockedHintCount ?? 1}
+              mastered={progress?.mastered ?? scoreResult.total >= level.targetScore}
+              attempts={progress?.attempts ?? []}
+            />
+            <Separator className="bg-zinc-800" />
+          </>
+        )}
+
         {/* Category breakdowns */}
         <div className="space-y-2">
           <p className="text-xs font-semibold uppercase tracking-wider text-zinc-500">
@@ -243,5 +268,93 @@ export function ScoreReport() {
         )}
       </div>
     </ScrollArea>
+  );
+}
+
+function AdaptivePracticePanel({
+  problemId,
+  problemTitle,
+  targetScore,
+  hints,
+  scoreTotal,
+  feedback,
+  unlockedHintCount,
+  mastered,
+  attempts,
+}: {
+  problemId: string;
+  problemTitle: string;
+  targetScore: number;
+  hints: { title: string; content: string }[];
+  scoreTotal: number;
+  feedback: string[];
+  unlockedHintCount: number;
+  mastered: boolean;
+  attempts: { score: number; at: string }[];
+}) {
+  const unlockNextHint = usePracticeStore((s) => s.unlockNextHint);
+  const generatedHints = feedback.map((item, index) => ({
+    title: `Fix ${index + 1}`,
+    content: item,
+  }));
+  const availableHints = hints.length > 0 ? hints : generatedHints;
+  const shownHints = availableHints.slice(0, Math.min(unlockedHintCount, availableHints.length));
+  const gap = Math.max(0, targetScore - scoreTotal);
+
+  return (
+    <div className="rounded-md border border-zinc-700 bg-zinc-800/50 p-3">
+      <div className="flex items-start justify-between gap-3">
+        <div className="min-w-0">
+          <p className="truncate text-xs font-semibold text-zinc-100">{problemTitle}</p>
+          <p className="mt-1 text-[11px] text-zinc-500">
+            Target {targetScore} {mastered ? "met" : `${gap} points away`}
+          </p>
+        </div>
+        <span
+          className={`shrink-0 rounded-md border px-2 py-1 text-[11px] font-medium ${
+            mastered
+              ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-400"
+              : "border-amber-500/30 bg-amber-500/10 text-amber-400"
+          }`}
+        >
+          {mastered ? "Mastered" : "Level active"}
+        </span>
+      </div>
+
+      {attempts.length > 0 && (
+        <div className="mt-3 flex items-center gap-1">
+          {attempts.slice(0, 6).map((attempt, index) => (
+            <div
+              key={`${attempt.at}-${index}`}
+              className={`h-1.5 flex-1 rounded-full ${attempt.score >= targetScore ? "bg-emerald-500" : "bg-amber-500"}`}
+              title={`${attempt.score}/100`}
+            />
+          ))}
+        </div>
+      )}
+
+      {shownHints.length > 0 && !mastered && (
+        <div className="mt-3 space-y-2">
+          <p className="text-xs font-semibold uppercase tracking-wider text-zinc-500">
+            Unlocked Hints
+          </p>
+          {shownHints.map((hint, index) => (
+            <div key={`${hint.title}-${index}`} className="rounded-md border border-zinc-700 bg-zinc-900/60 px-2.5 py-2">
+              <p className="text-xs font-medium text-cyan-400">{hint.title}</p>
+              <p className="mt-1 text-[11px] leading-relaxed text-zinc-400">{hint.content}</p>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {!mastered && availableHints.length > shownHints.length && (
+        <button
+          onClick={() => unlockNextHint(problemId, availableHints.length)}
+          className="mt-3 w-full rounded-md border border-cyan-500/30 bg-cyan-500/10 px-2.5 py-1.5 text-xs font-medium text-cyan-400 hover:bg-cyan-500/15"
+        >
+          Unlock next hint
+        </button>
+      )}
+    </div>
   );
 }

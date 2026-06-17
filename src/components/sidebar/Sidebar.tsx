@@ -4,6 +4,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ComponentPalette } from "./ComponentPalette";
 import { ProblemSelector } from "./ProblemSelector";
 import { LearningPath } from "./LearningPath";
+import { PracticeCoach } from "./PracticeCoach";
 import { useAppStore } from "@/store/appStore";
 
 interface SidebarProps {
@@ -30,24 +31,34 @@ function SidebarTabs({
     <Tabs value={activeLeftTab} onValueChange={(v) => setActiveLeftTab(v as typeof activeLeftTab)} className="flex flex-1 flex-col min-h-0">
       <TabsList className="mx-2 mt-2 h-9 w-auto shrink-0 bg-zinc-800">
         <TabsTrigger
-          value="components"
+          value="coach"
           className="h-7 px-3 text-xs data-[state=active]:bg-zinc-700 data-[state=active]:text-zinc-100"
         >
-          Components
+          Coach
+        </TabsTrigger>
+        <TabsTrigger
+          value="components"
+          className="h-7 px-2.5 text-xs data-[state=active]:bg-zinc-700 data-[state=active]:text-zinc-100"
+        >
+          Build
         </TabsTrigger>
         <TabsTrigger
           value="problems"
-          className="h-7 px-3 text-xs data-[state=active]:bg-zinc-700 data-[state=active]:text-zinc-100"
+          className="h-7 px-2.5 text-xs data-[state=active]:bg-zinc-700 data-[state=active]:text-zinc-100"
         >
           Problems
         </TabsTrigger>
         <TabsTrigger
           value="learn"
-          className="h-7 px-3 text-xs data-[state=active]:bg-zinc-700 data-[state=active]:text-zinc-100"
+          className="h-7 px-2.5 text-xs data-[state=active]:bg-zinc-700 data-[state=active]:text-zinc-100"
         >
           Learn
         </TabsTrigger>
       </TabsList>
+
+      <TabsContent value="coach" className="mt-0 flex-1 min-h-0 overflow-hidden">
+        <PracticeCoach />
+      </TabsContent>
 
       <TabsContent value="components" className="mt-0 flex-1 min-h-0 overflow-hidden">
         <ComponentPalette

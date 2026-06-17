@@ -13,7 +13,7 @@ import { useCanvasStore, type ComponentNodeData } from "@/store/canvasStore";
 import { useSimulationStore } from "@/store/simulationStore";
 import { runSimulation } from "@/engine/simulator";
 import { scoreDesign } from "@/scoring/scorer";
-import { PROBLEMS } from "@/data/problems";
+import { PROBLEMS, getProblemById } from "@/data/problems";
 import { loadReferenceIntoTab } from "@/lib/loadReference";
 import { Toast } from "@/components/ui/Toast";
 import { SaveDialog } from "@/components/dialogs/SaveDialog";
@@ -29,6 +29,8 @@ import { CommandPalette } from "@/components/CommandPalette";
 import { HowItWorksDialog } from "@/components/dialogs/HowItWorksDialog";
 import { Walkthrough } from "@/components/Walkthrough";
 import { rehydrateAllStores } from "@/store/hydration";
+import { usePracticeStore } from "@/store/practiceStore";
+import { getLevelTarget } from "@/data/practiceLevels";
 
 export function AppShell() {
   const isMobile = useIsMobile();
@@ -153,6 +155,10 @@ export function AppShell() {
     useSimulationStore.getState().setScoreResult(result);
     useSimulationStore.getState().setShowScore(true);
     useAppStore.getState().setActiveRightTab("score");
+    const problem = getProblemById(useAppStore.getState().selectedProblemId);
+    if (problem) {
+      usePracticeStore.getState().recordAttempt(problem.id, result, getLevelTarget(problem));
+    }
 
     // On mobile, auto-open the right sheet so the score is visible
     if (isMobile) setMobileRightOpen(true);

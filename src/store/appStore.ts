@@ -21,7 +21,7 @@ interface AppState {
   theme: Theme;
   leftSidebarOpen: boolean;
   rightPanelOpen: boolean;
-  activeLeftTab: "components" | "problems" | "learn";
+  activeLeftTab: "coach" | "components" | "problems" | "learn";
   activeRightTab: "properties" | "simulation" | "score" | "capacity" | "tradeoffs";
   toast: ToastData | null;
 
@@ -48,7 +48,7 @@ export const useAppStore = create<AppState>()(
       theme: "dark",
       leftSidebarOpen: true,
       rightPanelOpen: true,
-      activeLeftTab: "components",
+      activeLeftTab: "coach",
       activeRightTab: "properties",
       toast: null,
 

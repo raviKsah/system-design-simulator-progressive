@@ -20,6 +20,7 @@ export interface Problem {
   id: string;
   title: string;
   difficulty: "Easy" | "Medium" | "Hard";
+  practiceLevel?: 1 | 2 | 3;
   description: string;
   requirements: ProblemRequirements;
   constraints: string[];

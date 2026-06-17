@@ -19,6 +19,7 @@ import { TradeoffLog } from "./TradeoffLog";
 import { TradeoffCards } from "./TradeoffCards";
 import { useInterviewStore } from "@/store/interviewStore";
 import { InterviewPhasePanel } from "@/components/interview/InterviewPhasePanel";
+import { usePracticeStore } from "@/store/practiceStore";
 
 interface RightPanelProps {
   open?: boolean;
@@ -266,7 +267,7 @@ function PropertiesTab() {
       {problem && problem.hints.length > 0 && (
         <>
           <Separator className="bg-zinc-800" />
-          <HintsSection hints={problem.hints} />
+          <HintsSection problemId={problem.id} hints={problem.hints} />
         </>
       )}
 
@@ -446,8 +447,11 @@ function ConstraintsSection({ constraints }: { constraints: string[] }) {
   );
 }
 
-function HintsSection({ hints }: { hints: { title: string; content: string }[] }) {
+function HintsSection({ problemId, hints }: { problemId: string; hints: { title: string; content: string }[] }) {
   const [expandedHints, setExpandedHints] = useState<Set<number>>(new Set());
+  const progress = usePracticeStore((s) => s.progressByProblemId[problemId]);
+  const unlockNextHint = usePracticeStore((s) => s.unlockNextHint);
+  const unlockedCount = Math.min(hints.length, progress?.unlockedHintCount ?? 1);
 
   const toggleHint = (index: number) => {
     setExpandedHints((prev) => {
@@ -467,20 +471,26 @@ function HintsSection({ hints }: { hints: { title: string; content: string }[] }
         Hints
       </p>
       <div className="space-y-1.5">
-        {hints.map((hint, i) => (
+        {hints.map((hint, i) => {
+          const locked = i >= unlockedCount;
+          return (
           <div
             key={i}
-            className="rounded-md border border-zinc-700 bg-zinc-800 overflow-hidden"
+            className={`rounded-md border border-zinc-700 bg-zinc-800 overflow-hidden ${locked ? "opacity-60" : ""}`}
           >
             <button
-              onClick={() => toggleHint(i)}
+              onClick={() => {
+                if (!locked) toggleHint(i);
+              }}
               className="flex w-full items-center gap-2 px-2.5 py-2 text-left"
             >
               <Lightbulb className="h-3.5 w-3.5 shrink-0 text-zinc-400" />
               <span className="flex-1 text-xs font-medium text-zinc-300">
-                {hint.title}
+                {locked ? `Locked hint ${i + 1}` : hint.title}
               </span>
-              {expandedHints.has(i) ? (
+              {locked ? (
+                <span className="text-[10px] text-zinc-500">Score</span>
+              ) : expandedHints.has(i) ? (
                 <ChevronDown className="h-3 w-3 shrink-0 text-zinc-500" />
               ) : (
                 <ChevronRight className="h-3 w-3 shrink-0 text-zinc-500" />
@@ -494,8 +504,18 @@ function HintsSection({ hints }: { hints: { title: string; content: string }[] }
               </div>
             )}
           </div>
-        ))}
+        );
+        })}
       </div>
+      {unlockedCount < hints.length && (
+        <button
+          onClick={() => unlockNextHint(problemId, hints.length)}
+          className="flex items-center gap-1 text-xs text-cyan-500 transition-colors hover:text-cyan-400"
+        >
+          <ChevronRight className="h-3 w-3" />
+          Unlock next hint
+        </button>
+      )}
     </div>
   );
 }

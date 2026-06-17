@@ -73,6 +73,7 @@ export function TopBar({ onSimulate, onScore, onClearCanvas, onSave, onLoad, onS
   const setSelectedProblem = useAppStore((s) => s.setSelectedProblem);
   const theme = useAppStore((s) => s.theme);
   const toggleTheme = useAppStore((s) => s.toggleTheme);
+  const setActiveLeftTab = useAppStore((s) => s.setActiveLeftTab);
 
   const customProblems = useCustomProblemsStore((s) => s.problems);
   const currentProblem =
@@ -302,7 +303,10 @@ export function TopBar({ onSimulate, onScore, onClearCanvas, onSave, onLoad, onS
         <div className="mx-1 hidden h-4 w-px bg-zinc-800 md:block" />
 
         <button
-          onClick={onStartInterview}
+          onClick={() => {
+            setActiveLeftTab("coach");
+            onStartInterview();
+          }}
           className="hidden shrink-0 items-center gap-1 rounded-md bg-zinc-800 px-2 py-1 text-[10px] font-medium text-zinc-300 transition-colors hover:bg-zinc-700 hover:text-zinc-100 md:flex"
           title="Start a guided interview practice"
         >
