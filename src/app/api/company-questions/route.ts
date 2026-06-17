@@ -330,7 +330,7 @@ export async function GET(request: NextRequest) {
     const response = await fetch(url, {
       headers: {
         "accept": "text/html",
-        "user-agent": "Mozilla/5.0 SystemForge practice coach",
+        "user-agent": "Mozilla/5.0 HLD Ladder practice coach",
       },
       next: { revalidate: 3600 },
     });

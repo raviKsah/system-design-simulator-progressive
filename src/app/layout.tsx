@@ -4,7 +4,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import "./globals.css";
 
 // One grotesque does both body and display (differentiated by weight + tracking)
-// — escapes the "Geist = AI default" read while staying refined and legible.
+// - escapes the "Geist = AI default" read while staying refined and legible.
 const hanken = Hanken_Grotesk({
   variable: "--font-hanken",
   subsets: ["latin"],
@@ -17,8 +17,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "SystemForge — System Design Interview Simulator",
-  description: "SystemForge is an interactive system design interview simulator — build architectures on a canvas, simulate production traffic, and get scored like a real interview.",
+  title: "HLD Ladder - Progressive System Design Practice",
+  description:
+    "HLD Ladder is a personal, progression-based system design practice app for learning high-level design through guided levels, hints, simulation, and scoring.",
 };
 
 export const viewport: Viewport = {
@@ -38,7 +39,7 @@ export default function RootLayout({
     <html
       lang="en"
       // The inline theme script below toggles the `dark` class before React
-      // hydrates, so the html class intentionally differs from SSR — suppress
+      // hydrates, so the html class intentionally differs from SSR - suppress
       // the expected hydration warning (canonical theme-toggle pattern).
       suppressHydrationWarning
       className={`${hanken.variable} ${geistMono.variable} dark h-full antialiased`}

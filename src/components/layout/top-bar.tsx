@@ -19,8 +19,6 @@ import {
   GraduationCap,
   Plus,
   MoreHorizontal,
-  Heart,
-  Coffee,
   Undo2,
   Redo2,
   Loader2,
@@ -46,12 +44,11 @@ interface TopBarProps {
   onLoad: () => void;
   onStartInterview: () => void;
   onCreateProblem: () => void;
-  onOpenSupport: () => void;
   onToggleLeft: () => void;
   onToggleRight: () => void;
 }
 
-export function TopBar({ onSimulate, onScore, onClearCanvas, onSave, onLoad, onStartInterview, onCreateProblem, onOpenSupport, onToggleLeft, onToggleRight }: TopBarProps) {
+export function TopBar({ onSimulate, onScore, onClearCanvas, onSave, onLoad, onStartInterview, onCreateProblem, onToggleLeft, onToggleRight }: TopBarProps) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [exportOpen, setExportOpen] = useState(false);
   const [mobileMoreOpen, setMobileMoreOpen] = useState(false);
@@ -171,9 +168,9 @@ export function TopBar({ onSimulate, onScore, onClearCanvas, onSave, onLoad, onS
 
         <div className="flex shrink-0 items-center gap-2">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/logo-mark.svg" alt="SystemForge" width={20} height={20} className="h-5 w-5" />
+          <img src="/logo-mark.svg" alt="HLD Ladder" width={20} height={20} className="h-5 w-5" />
           <span className="hidden font-display text-[15px] font-bold tracking-[-0.02em] text-zinc-50 sm:inline">
-            SystemForge
+            HLD Ladder
           </span>
         </div>
 
@@ -398,17 +395,6 @@ export function TopBar({ onSimulate, onScore, onClearCanvas, onSave, onLoad, onS
 
                 <div className="my-1 h-px bg-zinc-800" />
 
-                {/* Support */}
-                <button
-                  onClick={() => { setMobileMoreOpen(false); onOpenSupport(); }}
-                  className="flex w-full items-center gap-2.5 px-3 py-2.5 text-left text-xs text-zinc-300 transition-colors hover:bg-zinc-800"
-                >
-                  <Heart className="h-3.5 w-3.5 fill-rose-400/40 text-rose-400" />
-                  Support this project
-                </button>
-
-                <div className="my-1 h-px bg-zinc-800" />
-
                 {/* Danger */}
                 <button
                   onClick={() => { setMobileMoreOpen(false); setClearConfirmOpen(true); }}
@@ -530,16 +516,6 @@ export function TopBar({ onSimulate, onScore, onClearCanvas, onSave, onLoad, onS
           <Trophy className="h-3 w-3" />
           <span className="hidden sm:inline">Score</span>
         </Button>
-
-        {/* Buy me a coffee — desktop only (mobile has FAB + overflow menu) */}
-        <button
-          onClick={onOpenSupport}
-          className="hidden h-7 items-center gap-1.5 rounded-md border border-cyan-500/30 bg-cyan-500/10 px-2.5 text-xs font-medium text-cyan-400 transition-colors hover:border-cyan-400/50 hover:bg-cyan-500/15 hover:text-cyan-300 md:flex"
-          title="Buy me a coffee — support the project"
-        >
-          <Coffee className="h-3.5 w-3.5" />
-          <span>Buy me a coffee</span>
-        </button>
 
         <button
           onClick={toggleTheme}

@@ -1,17 +1,14 @@
 <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <linearGradient id="sf-grad" x1="6" y1="4" x2="26" y2="28" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#5eead4"/>
+    <linearGradient id="hld-ladder" x1="7" y1="5" x2="25" y2="27" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#34d399"/>
       <stop offset="0.55" stop-color="#22d3ee"/>
-      <stop offset="1" stop-color="#3b82f6"/>
+      <stop offset="1" stop-color="#60a5fa"/>
     </linearGradient>
   </defs>
-  <!-- edges of a 3-node system topology: the thing this app is about -->
-  <path d="M16 8 L8 23 M16 8 L24 23 M8 23 L24 23" stroke="url(#sf-grad)" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" opacity="0.85"/>
-  <!-- nodes -->
-  <circle cx="8" cy="23" r="3.1" fill="#0b1220" stroke="url(#sf-grad)" stroke-width="2.1"/>
-  <circle cx="24" cy="23" r="3.1" fill="#0b1220" stroke="url(#sf-grad)" stroke-width="2.1"/>
-  <!-- apex node = the "forge spark", filled/bright -->
-  <circle cx="16" cy="8" r="4" fill="url(#sf-grad)"/>
-  <circle cx="16" cy="8" r="1.6" fill="#0b1220"/>
+  <rect width="32" height="32" rx="8" fill="#09090b"/>
+  <path d="M11 24V8M21 24V8" stroke="url(#hld-ladder)" stroke-width="2.3" stroke-linecap="round"/>
+  <path d="M11 11H21M11 16H21M11 21H21" stroke="url(#hld-ladder)" stroke-width="2.3" stroke-linecap="round"/>
+  <circle cx="11" cy="24" r="2.2" fill="#09090b" stroke="#34d399" stroke-width="1.8"/>
+  <circle cx="21" cy="8" r="2.8" fill="url(#hld-ladder)"/>
 </svg>

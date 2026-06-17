@@ -21,7 +21,7 @@ import { getComponentById } from "@/data/components";
 import { BookOpen, GraduationCap, Layers, Lock, MousePointer2, Sparkles, HelpCircle } from "lucide-react";
 import { motion } from "framer-motion";
 
-// Orchestrated staggered reveal for the empty state — one deliberate page-load
+// Orchestrated staggered reveal for the empty state - one deliberate page-load
 // moment rather than scattered micro-animations.
 const emptyContainer = {
   hidden: {},
@@ -224,7 +224,7 @@ export function DesignCanvas({ onPickProblem, onLoadReference, onStartInterview,
           maskColor={minimapMask}
           nodeColor={miniMapNodeColor}
           position="bottom-right"
-          // Lifted above the corner Support FAB so the two don't overlap
+          // Lifted above the corner controls so it stays easy to reach
           style={{ width: 140, height: 90, bottom: 72 }}
         />
       </ReactFlow>
@@ -300,22 +300,22 @@ export function DesignCanvas({ onPickProblem, onLoadReference, onStartInterview,
 
             <motion.div variants={emptyItem} className="hidden flex-wrap items-center justify-center gap-3 text-[11px] text-zinc-500 md:flex">
               <span className="flex items-center gap-1.5">
-                <kbd className="rounded border border-zinc-700 bg-zinc-800 px-1.5 py-0.5 font-mono text-[10px]">⌘K</kbd>
+                <kbd className="rounded border border-zinc-700 bg-zinc-800 px-1.5 py-0.5 font-mono text-[10px]">Cmd+K</kbd>
                 command palette
               </span>
-              <span className="text-zinc-700">·</span>
+              <span className="text-zinc-700">-</span>
               <span className="flex items-center gap-1.5">
                 <MousePointer2 className="h-3 w-3" />
                 Drag from the sidebar
               </span>
-              <span className="text-zinc-700">·</span>
+              <span className="text-zinc-700">-</span>
               <span className="flex items-center gap-1">
-                <kbd className="rounded border border-zinc-700 bg-zinc-800 px-1.5 py-0.5 font-mono text-[10px]">⌘E</kbd>
+                <kbd className="rounded border border-zinc-700 bg-zinc-800 px-1.5 py-0.5 font-mono text-[10px]">Cmd+E</kbd>
                 export
               </span>
-              <span className="text-zinc-700">·</span>
+              <span className="text-zinc-700">-</span>
               <span className="flex items-center gap-1">
-                <kbd className="rounded border border-zinc-700 bg-zinc-800 px-1.5 py-0.5 font-mono text-[10px]">⌘↵</kbd>
+                <kbd className="rounded border border-zinc-700 bg-zinc-800 px-1.5 py-0.5 font-mono text-[10px]">Cmd+Enter</kbd>
                 simulate
               </span>
             </motion.div>

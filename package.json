@@ -1,10 +1,10 @@
 {
-  "name": "system-design-simulator",
+  "name": "hld-ladder",
   "version": "0.1.0",
   "private": true,
   "license": "MIT",
-  "author": "Vijay Gupta (@vijaygupta18)",
-  "description": "SystemForge — an open-source system design interview simulator: build architectures, simulate traffic, and get scored.",
+  "author": "Ravi Kumar Sah (@raviKsah)",
+  "description": "HLD Ladder - a personal, progression-based system design practice app with guided levels, hints, simulation, scoring, and company question discovery.",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

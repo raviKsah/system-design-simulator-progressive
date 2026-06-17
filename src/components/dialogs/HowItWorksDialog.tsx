@@ -31,7 +31,7 @@ const MODES = [
     icon: GraduationCap,
     title: "Interview",
     color: "text-cyan-400 bg-cyan-500/10 ring-cyan-500/25",
-    body: "Run a timed 6-phase mock — Requirements → Estimation → API → Data Model → High-Level Design → Deep Dive — with a wall-clock timer and per-phase guidance.",
+    body: "Run a timed 6-phase mock - Requirements -> Estimation -> API -> Data Model -> High-Level Design -> Deep Dive - with a wall-clock timer and per-phase guidance.",
   },
   {
     icon: Activity,
@@ -43,24 +43,24 @@ const MODES = [
 
 const STEPS = [
   ["Pick a problem", "Choose from the top-bar dropdown (or start on a blank canvas)."],
-  ["Build", "Drag components from the left sidebar — or press ⌘K and search for one."],
+  ["Build", "Drag components from the left sidebar - or press Cmd+K and search for one."],
   ["Wire it up", "Drag between node handles to connect; click an edge to set its protocol & sync/async mode."],
-  ["Simulate", "Press ⌘↵ to push 1K–500K req/s through your design and watch it behave."],
-  ["Score", "Press ⌘⇧S to get rated across Scalability, Availability, Latency, Cost & Trade-offs — with concrete fixes."],
+  ["Simulate", "Press Cmd+Enter to push 1K-500K req/s through your design and watch it behave."],
+  ["Score", "Press Cmd+Shift+S to get rated across Scalability, Availability, Latency, Cost & Trade-offs - with concrete fixes."],
   ["Iterate & save", "Refine the design, then Save it or Export as PNG/JSON. Load Reference shows a model solution."],
 ];
 
 export function HowItWorksDialog({ open, onClose, onPickProblem, onPlayWalkthrough }: HowItWorksDialogProps) {
   return (
-    <ModalShell open={open} onClose={onClose} ariaLabel="How SystemForge works" panelClassName="max-w-2xl">
+    <ModalShell open={open} onClose={onClose} ariaLabel="How HLD Ladder works" panelClassName="max-w-2xl">
       {/* Header */}
       <div className="sticky top-0 z-10 flex items-start justify-between gap-3 border-b border-zinc-800 bg-zinc-900/95 px-5 py-4 backdrop-blur">
         <div className="flex items-center gap-3">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/logo-mark.svg" alt="" width={26} height={26} className="h-[26px] w-[26px]" />
           <div>
-            <h2 className="font-display text-base font-bold tracking-tight text-zinc-50">How SystemForge works</h2>
-            <p className="text-xs text-zinc-400">Build architectures, simulate traffic, and get scored like a real interview.</p>
+            <h2 className="font-display text-base font-bold tracking-tight text-zinc-50">How HLD Ladder works</h2>
+            <p className="text-xs text-zinc-400">Climb through levels, build architectures, simulate traffic, and learn from hints.</p>
           </div>
         </div>
         <button
@@ -85,7 +85,7 @@ export function HowItWorksDialog({ open, onClose, onPickProblem, onPlayWalkthrou
             </span>
             <span className="flex-1">
               <span className="block text-sm font-semibold text-zinc-50">Watch the 60-second walkthrough</span>
-              <span className="block text-xs text-zinc-400">An animated tour of the whole flow — build, simulate, score & interview.</span>
+              <span className="block text-xs text-zinc-400">An animated tour of the whole flow - build, simulate, score & interview.</span>
             </span>
             <Sparkles className="h-4 w-4 shrink-0 text-cyan-400" />
           </button>
@@ -136,7 +136,7 @@ export function HowItWorksDialog({ open, onClose, onPickProblem, onPlayWalkthrou
             <Command className="mt-0.5 h-4 w-4 shrink-0 text-cyan-400" />
             <p className="text-xs leading-relaxed text-zinc-400">
               <span className="font-semibold text-zinc-200">Power tip:</span> press{" "}
-              <kbd className="rounded border border-zinc-700 bg-zinc-800 px-1.5 py-0.5 font-mono text-[10px] text-zinc-300">⌘K</kbd>{" "}
+              <kbd className="rounded border border-zinc-700 bg-zinc-800 px-1.5 py-0.5 font-mono text-[10px] text-zinc-300">Cmd+K</kbd>{" "}
               anywhere to search problems, add components, and run actions. You can also create your own components & problems, and everything saves to your browser automatically.
             </p>
           </div>

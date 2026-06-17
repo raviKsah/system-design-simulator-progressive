@@ -4,7 +4,6 @@ import { useCallback, useEffect, useState } from "react";
 import { ReactFlowProvider, type Node } from "@xyflow/react";
 import { X } from "lucide-react";
 import { TopBar } from "./top-bar";
-import { SupportFAB } from "./SupportFAB";
 import { Sidebar } from "@/components/sidebar/Sidebar";
 import { RightPanel } from "@/components/panel/RightPanel";
 import { DesignCanvas } from "@/components/canvas/DesignCanvas";
@@ -22,7 +21,6 @@ import { InterviewBar } from "@/components/interview/InterviewBar";
 import { InterviewStartDialog } from "@/components/interview/InterviewStartDialog";
 import { CreateProblemDialog } from "@/components/dialogs/CreateProblemDialog";
 import { CreateComponentDialog } from "@/components/dialogs/CreateComponentDialog";
-import { SupportDialog } from "@/components/dialogs/SupportDialog";
 import { useInterviewStore } from "@/store/interviewStore";
 import { useIsMobile } from "@/hooks/useBreakpoint";
 import { CommandPalette } from "@/components/CommandPalette";
@@ -39,7 +37,7 @@ export function AppShell() {
   const toggleLeftSidebar = useAppStore((s) => s.toggleLeftSidebar);
   const toggleRightPanel = useAppStore((s) => s.toggleRightPanel);
 
-  // Mobile drawer state — local, does not persist
+  // Mobile drawer state - local, does not persist
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   const [mobileRightOpen, setMobileRightOpen] = useState(false);
 
@@ -48,33 +46,16 @@ export function AppShell() {
   const [interviewDialogOpen, setInterviewDialogOpen] = useState(false);
   const [createProblemDialogOpen, setCreateProblemDialogOpen] = useState(false);
   const [createComponentDialogOpen, setCreateComponentDialogOpen] = useState(false);
-  const [supportDialogOpen, setSupportDialogOpen] = useState(false);
   const [commandOpen, setCommandOpen] = useState(false);
   const [howItWorksOpen, setHowItWorksOpen] = useState(false);
   const [walkthroughOpen, setWalkthroughOpen] = useState(false);
 
   // Load persisted state from localStorage once, after mount. All stores use
   // `skipHydration: true` (so SSR and first client render agree), so without
-  // this call nothing would ever be restored — the canvas, saved designs,
+  // this call nothing would ever be restored - the canvas, saved designs,
   // custom components, etc. would reset on every refresh / new tab.
   useEffect(() => {
     rehydrateAllStores();
-  }, []);
-
-  // Auto-open support dialog when URL has ?support=1 (used by the README link)
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    const params = new URLSearchParams(window.location.search);
-    if (params.get("support") === "1") {
-      // Reading the URL (external system) once on mount — a lazy initializer
-      // would cause an SSR hydration mismatch, so the effect is intentional.
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setSupportDialogOpen(true);
-      params.delete("support");
-      const q = params.toString();
-      const next = window.location.pathname + (q ? `?${q}` : "") + window.location.hash;
-      window.history.replaceState({}, "", next);
-    }
   }, []);
   const interviewMode = useInterviewStore((s) => s.mode);
   const timerRunning = useInterviewStore((s) => s.timerRunning);
@@ -91,13 +72,13 @@ export function AppShell() {
   }, [isMobile, toggleRightPanel]);
 
   // Close any open mobile drawers when we transition to desktop
-  // (render-time adjustment — https://react.dev/learn/you-might-not-need-an-effect)
+  // (render-time adjustment - https://react.dev/learn/you-might-not-need-an-effect)
   if (!isMobile && (mobileSidebarOpen || mobileRightOpen)) {
     setMobileSidebarOpen(false);
     setMobileRightOpen(false);
   }
 
-  // On tablets (768–1023px) default the right panel to closed on first load
+  // On tablets (768-1023px) default the right panel to closed on first load
   // so the canvas gets the space. Runs once; the user can still toggle it.
   useEffect(() => {
     if (
@@ -196,7 +177,7 @@ export function AppShell() {
         return;
       }
 
-      // e.key is "S" (uppercase) when Shift is held — normalize for shortcuts
+      // e.key is "S" (uppercase) when Shift is held - normalize for shortcuts
       const key = e.key.toLowerCase();
 
       if (e.key === "Delete" || e.key === "Backspace") {
@@ -213,14 +194,14 @@ export function AppShell() {
         }
       }
 
-      // Command palette — Cmd/Ctrl+K (toggle)
+      // Command palette - Cmd/Ctrl+K (toggle)
       if (key === "k" && (e.metaKey || e.ctrlKey)) {
         e.preventDefault();
         setCommandOpen((v) => !v);
         return;
       }
 
-      // Undo / Redo — Cmd/Ctrl+Z, redo via Shift+Z or Ctrl+Y. Disabled on read-only tabs.
+      // Undo / Redo - Cmd/Ctrl+Z, redo via Shift+Z or Ctrl+Y. Disabled on read-only tabs.
       if (key === "z" && (e.metaKey || e.ctrlKey)) {
         const { tabs, activeTabId, undo, redo } = useCanvasStore.getState();
         const isReadOnlyTab = tabs.find((t) => t.id === activeTabId)?.readOnly === true;
@@ -294,7 +275,6 @@ export function AppShell() {
           onLoad={handleLoad}
           onStartInterview={() => setInterviewDialogOpen(true)}
           onCreateProblem={() => setCreateProblemDialogOpen(true)}
-          onOpenSupport={() => setSupportDialogOpen(true)}
           onToggleLeft={handleToggleLeft}
           onToggleRight={handleToggleRight}
         />
@@ -397,11 +377,6 @@ export function AppShell() {
           )}
         </div>
 
-        <SupportFAB
-          onClick={() => setSupportDialogOpen(true)}
-          hidden={mobileSidebarOpen || mobileRightOpen}
-        />
-
         <Toast />
 
         <SaveDialog open={saveDialogOpen} onClose={() => setSaveDialogOpen(false)} />
@@ -409,7 +384,6 @@ export function AppShell() {
         <InterviewStartDialog open={interviewDialogOpen} onClose={() => setInterviewDialogOpen(false)} />
         <CreateProblemDialog open={createProblemDialogOpen} onClose={() => setCreateProblemDialogOpen(false)} />
         <CreateComponentDialog open={createComponentDialogOpen} onClose={() => setCreateComponentDialogOpen(false)} />
-        <SupportDialog open={supportDialogOpen} onClose={() => setSupportDialogOpen(false)} />
         <CommandPalette
           key={commandOpen ? "cmd-open" : "cmd-closed"}
           open={commandOpen}
@@ -422,7 +396,6 @@ export function AppShell() {
             onStartInterview: () => setInterviewDialogOpen(true),
             onLoadReference: handleLoadReference,
             onClear: handleClearCanvas,
-            onOpenSupport: () => setSupportDialogOpen(true),
             onShowGuide: () => setHowItWorksOpen(true),
           }}
         />

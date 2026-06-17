@@ -299,13 +299,13 @@ interface Scene {
 }
 
 const SCENES: Scene[] = [
-  { id: "welcome", title: "Welcome to SystemForge", text: "A hands-on simulator for system design interviews. Here's the entire flow in under a minute.", Illo: SceneWelcome },
-  { id: "build", title: "1 · Build the architecture", text: "Pick from 35 problems, then drag infrastructure components onto the canvas — load balancers, app servers, caches, databases, queues and more.", Illo: SceneBuild },
-  { id: "wire", title: "2 · Wire it together", text: "Connect components to model the request path. Click any edge to set its protocol (HTTP, gRPC, WebSocket…) and sync or async mode.", Illo: SceneWire },
-  { id: "simulate", title: "3 · Simulate real traffic", text: "Push up to 500K requests/sec through your design and watch QPS, utilization and bottlenecks light up across every node.", Illo: SceneSimulate },
-  { id: "score", title: "4 · Get scored like an interview", text: "Get rated across Scalability, Availability, Latency, Cost and Trade-offs — each with concrete, actionable feedback.", Illo: SceneScore },
-  { id: "interview", title: "5 · Practice the real thing", text: "Run a timed 6-phase mock interview — Requirements through Deep Dive — with a wall-clock timer and live, phase-by-phase guidance.", Illo: SceneInterview },
-  { id: "command", title: "Move at the speed of thought", text: "Press ⌘K anywhere to search problems, add components, and run any action instantly — no hunting through menus.", Illo: SceneCommand },
+  { id: "welcome", title: "Welcome to HLD Ladder", text: "A hands-on, level-based simulator for learning system design. Here's the entire flow in under a minute.", Illo: SceneWelcome },
+  { id: "build", title: "1 - Build the architecture", text: "Pick from 35 problems, then drag infrastructure components onto the canvas - load balancers, app servers, caches, databases, queues and more.", Illo: SceneBuild },
+  { id: "wire", title: "2 - Wire it together", text: "Connect components to model the request path. Click any edge to set its protocol (HTTP, gRPC, WebSocket...) and sync or async mode.", Illo: SceneWire },
+  { id: "simulate", title: "3 - Simulate real traffic", text: "Push up to 500K requests/sec through your design and watch QPS, utilization and bottlenecks light up across every node.", Illo: SceneSimulate },
+  { id: "score", title: "4 - Get scored like an interview", text: "Get rated across Scalability, Availability, Latency, Cost and Trade-offs - each with concrete, actionable feedback.", Illo: SceneScore },
+  { id: "interview", title: "5 - Practice the real thing", text: "Run a timed 6-phase mock interview - Requirements through Deep Dive - with a wall-clock timer and live, phase-by-phase guidance.", Illo: SceneInterview },
+  { id: "command", title: "Move at the speed of thought", text: "Press Cmd+K anywhere to search problems, add components, and run any action instantly - no hunting through menus.", Illo: SceneCommand },
   { id: "outro", title: "That's the whole loop", text: "Pick a problem and design your first architecture. Build, simulate, score, repeat.", Illo: SceneOutro, cta: true },
 ];
 
@@ -380,7 +380,7 @@ export function Walkthrough({ open, onClose, onPickProblem }: WalkthroughProps) 
       <motion.div
         role="dialog"
         aria-modal="true"
-        aria-label="SystemForge walkthrough"
+        aria-label="HLD Ladder walkthrough"
         initial={{ opacity: 0, scale: 0.97 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.2, ease: EASE }}

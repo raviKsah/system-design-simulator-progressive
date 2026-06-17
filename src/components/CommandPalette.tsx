@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { useReactFlow, type Node } from "@xyflow/react";
 import {
   Search, Play, Trophy, Save, FolderOpen, GraduationCap, Download,
-  Trash2, Undo2, Redo2, Coffee, Box, Puzzle, CornerDownLeft, HelpCircle,
+  Trash2, Undo2, Redo2, Box, Puzzle, CornerDownLeft, HelpCircle,
 } from "lucide-react";
 import { SYSTEM_COMPONENTS } from "@/data/components";
 import type { SystemComponent } from "@/types/component";
@@ -36,7 +36,6 @@ interface CommandPaletteProps {
     onStartInterview: () => void;
     onLoadReference: () => void;
     onClear: () => void;
-    onOpenSupport: () => void;
     onShowGuide: () => void;
   };
 }
@@ -123,7 +122,7 @@ export function CommandPalette({ open, onClose, actions }: CommandPaletteProps) 
   const items = useMemo<CommandItem[]>(() => {
     const a = actions;
     const actionItems: CommandItem[] = [
-      { id: "act-guide", group: "Actions", label: "How SystemForge works", icon: HelpCircle, run: a.onShowGuide },
+      { id: "act-guide", group: "Actions", label: "How HLD Ladder works", icon: HelpCircle, run: a.onShowGuide },
       { id: "act-sim", group: "Actions", label: "Run simulation", hint: "⌘↵", icon: Play, run: a.onSimulate },
       { id: "act-score", group: "Actions", label: "Score design", hint: "⌘⇧S", icon: Trophy, run: a.onScore },
       { id: "act-ref", group: "Actions", label: "Load reference solution", icon: Download, run: a.onLoadReference },
@@ -133,7 +132,6 @@ export function CommandPalette({ open, onClose, actions }: CommandPaletteProps) 
       { id: "act-undo", group: "Actions", label: "Undo", hint: "⌘Z", icon: Undo2, run: undo },
       { id: "act-redo", group: "Actions", label: "Redo", hint: "⌘⇧Z", icon: Redo2, run: redo },
       { id: "act-clear", group: "Actions", label: "Clear canvas", icon: Trash2, run: a.onClear },
-      { id: "act-support", group: "Actions", label: "Support the project", icon: Coffee, run: a.onOpenSupport },
     ];
     const problemItems: CommandItem[] = [...PROBLEMS, ...customProblems].map((p) => ({
       id: `prob-${p.id}`,
